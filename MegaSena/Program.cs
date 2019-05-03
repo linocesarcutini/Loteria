@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 namespace MegaSena
 {
-	class Program
-	{
-		public static int numero;
-		public static List<int> jogo;
+    class Program
+    {
+        public static int numero;
+        public static int[] jogo = new int[60];
 
-		public static void Main(string[] args)
+        public static void Main(string[] args)
 		{
 			Jogo();
 		}
@@ -17,7 +17,8 @@ namespace MegaSena
 		public static void Jogo()
 		{
 			int quantidade;
-			do
+
+            do
 			{
 				Console.WriteLine("Quantos números?");
 				
@@ -25,21 +26,21 @@ namespace MegaSena
 			}
 			while (quantidade >= 62);
 
-			numeroAletatorio();
+			NumeroAletatorio();
 
-			jogo = new List<int> ();
+			//jogo = new List<int> ();
 
 			for (int i = 1; i < quantidade; i++)
 			{
 				while (jogo.Contains(numero))
 				{
-					numeroAletatorio();
+					NumeroAletatorio();
 				}
 
 				jogo.Add(numero);
 			}
 
-			jogo.Sort();
+			//jogo.Sort();
 
 			string texto = "Os números são:";
 
@@ -61,11 +62,16 @@ namespace MegaSena
 			}
 		}
 
-		public static void numeroAletatorio()
+		public static void NumeroAletatorio()
 		{
-			Random rand = new Random();
+            for (int i = 1; i < 61; i++)
+            {
+                jogo[i] = i;
+            }
 
-			numero = rand.Next(1, 61);
+            //Random rand = new Random();
+
+            //jogo.sh; //rand.Next(1, 61);
 		}
 
 		public static void GravarJogo(string texto)
