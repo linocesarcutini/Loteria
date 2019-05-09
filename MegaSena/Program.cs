@@ -1,13 +1,13 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace MegaSena
 {
     class Program
     {
-        public static int numero;
-        public static int[] jogo = new int[60];
+        //public static int[] jogo;
 
         public static void Main(string[] args)
 		{
@@ -16,31 +16,19 @@ namespace MegaSena
 		
 		public static void Jogo()
 		{
-			int quantidade;
+			int quantidadeNumeros, quantidadeJogo;
 
-            do
-			{
-				Console.WriteLine("Quantos números?");
-				
-				quantidade = Convert.ToInt16(Console.ReadLine()) + 1;
-			}
-			while (quantidade >= 62);
+			Console.WriteLine("Quantos números tem o jogo?");
+            quantidadeNumeros = Convert.ToInt16(Console.ReadLine());
 
-			NumeroAletatorio();
+            //jogo = new int[quantidadeNumeros];
 
-			//jogo = new List<int> ();
+            Console.WriteLine("Quantos números serão sorteados?");
+            quantidadeJogo = Convert.ToInt16(Console.ReadLine());
 
-			for (int i = 1; i < quantidade; i++)
-			{
-				while (jogo.Contains(numero))
-				{
-					NumeroAletatorio();
-				}
+            var jogo = NumeroAletatorio(quantidadeNumeros, quantidadeJogo);
 
-				jogo.Add(numero);
-			}
-
-			//jogo.Sort();
+            jogo.Sort();
 
 			string texto = "Os números são:";
 
@@ -62,21 +50,39 @@ namespace MegaSena
 			}
 		}
 
-		public static void NumeroAletatorio()
+		public static List<int> NumeroAletatorio(int quantNum, int quantJogo)
 		{
+            var list = new List<int> { };
+            var rnd = new Random();
+
             for (int i = 1; i < 61; i++)
             {
-                jogo[i] = i;
+                list.Add(i);
             }
 
-            //Random rand = new Random();
+            var query =
+                from i in list
+                let r = rnd.Next()
+                orderby r
+                select i;
 
-            //jogo.sh; //rand.Next(1, 61);
+            var shuffled = query.ToList();
+
+            var shuffledTrimed = new List<int> ();
+
+            for (int i = 0; i < quantJogo; i++)
+            {
+                shuffledTrimed.Add(shuffled.ElementAt(i));
+            }
+
+            return shuffledTrimed;
 		}
 
 		public static void GravarJogo(string texto)
 		{
-			StreamWriter valor = new StreamWriter(@"D:\OneDrive\Programacao\02 C#\MegaSena\Resultados.txt", true);
+            var local = Directory.GetCurrentDirectory();
+
+            StreamWriter valor = new StreamWriter(local + @"\Resultados.txt", true);
 
 			valor.WriteLine(DateTime.Now.ToString() + " - " + texto.Replace("Os números são:", "").TrimStart().Replace(" ", ", "));
 
