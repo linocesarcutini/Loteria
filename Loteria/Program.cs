@@ -21,8 +21,6 @@ namespace MegaSena
 			Console.WriteLine("Quantos números tem o jogo?");
             quantidadeNumeros = Convert.ToInt16(Console.ReadLine());
 
-            //jogo = new int[quantidadeNumeros];
-
             Console.WriteLine("Quantos números serão sorteados?");
             quantidadeJogo = Convert.ToInt16(Console.ReadLine());
 
@@ -55,7 +53,7 @@ namespace MegaSena
             var list = new List<int> { };
             var rnd = new Random();
 
-            for (int i = 1; i < 61; i++)
+            for (int i = 1; i <= quantNum; i++)
             {
                 list.Add(i);
             }
